@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZT character sheet</title>
+    <style>
+      body
+      {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        zoom: 76%
+      }
+      h1,h2,h3,h4,h5,h6{text-align: center;}
+      small
+      {
+        font-style: italic;
+        color: grey;
+      }
+      textarea
+      {
+        border:none;
+      }
+      .box
+      {
+        display: grid;
+        border: 0.125em solid black;
+        padding: 0.5em;
+      }
+      #details
+      {
+        grid-column: span 4;
+      
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1em;
+        grid-row-gap: 1em;
+        justify-items: stretch;
+        align-items: stretch;
+      }
+      #skill-points
+      {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+      }
+      #abilities
+      {
+        grid-template-columns: auto 1fr 1fr;
+        grid-column-gap: 1em;
+        grid-row-gap: 0.5em;
+      }
+      .ability_header
+      {
+        grid-column: span 3;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 0.8em;
+      }
+      #abilities input
+      {
+        width: 100%
+      }
+      
+      #stat_box
+      {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: "hp mana fatigue" "max max hunger" "armor armor speed";
+      }
+      #stat_box > *
+      {
+        border: 1px solid black;
+        overflow: hidden;
+        height: 1.5em;
+        width: 100%;
+        /*padding-bottom: 1em;*/
+      }
+      #stat_box input[type=text]
+      {
+        margin-left: 1em;
+        border: none;
+        display: inline;
+        width: 50%
+      }
+      #actions input[type=text]
+      {
+        border: none;
+        display: inline;
+        width: 100%
+      }
+      #hp { grid-area: hp; }
+      #mana { grid-area: mana; }
+      #max_hp { grid-area: max; }
+      #armor { grid-area: armor; }
+      #fatigue { grid-area: fatigue; }
+      #hunger { grid-area: hunger; }
+      input[type=checkbox]
+      {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: inline-block;
+        position: relative;
+        background-color: #f1f1f1;
+        border: 1px solid black;
+        color: #666;
+        top: 0.1em;
+        height: 0.5em;
+        width: 0.5em;
+        border-radius: 50px;
+        margin-left: -0.15em;
+        margin-right: -0.15em;
+        cursor: pointer;     
+        outline: none;
+      }
+      input[type=checkbox]:checked
+      {
+        background-color: black;
+      }
+      #speed { grid-area: speed; }
+      
+      #actions
+      {
+        grid-template-rows: auto 1fr auto 2fr;
+      }
+      input
+      {
+        width: auto;
+        border-width: 0 0 0.125em 0;
+        border-style: solid;
+        
+      }
+      span
+      {
+        font-size: 0.75em
+      }
+      .feats
+      {
+        grid-template-columns: 4em 1fr;
+        grid-template-rows: 7em;
+        
+      }
+      th,td
+      {
+        border: 1px solid black;
+        font-size: 0.7em;
+      }
+      
+      #control_box
+      {
+        grid-column: span 2;
+      }
+      @media print
+      {
+        #control_box
+        {
+          display: none;
+        }
+      }
+      @page { size: landscape; }
+    </style>
+    <script>
+      function onload()
+      {
+      
+      }
+    </script>
+  </head>
+  <body onload="onload()">
+    
+    <div id="control_box">
+      <button onclick="print()">Print/Save as PDF</button>
+    </div>
+    
+    <h1 style="grid-column: span 4; font-size: 1.80em; margin: 0">Dasu nai `Iva no Zheilao Teigû character sheet</h1>
+    <div class="box" id="details">
+      <input placeholder="Name"></input> <input placeholder="Player"></input>
+      <input placeholder="Appearance"></input> <input></input>
+      <input placeholder="Personality"></input> <input></input>
+      <input placeholder="Ideals"></input> <input></input>
+      <input placeholder="Motives"></input> <input></input>
+      <input placeholder="Flaws"></input> <input></input>
+    </div>
+    <div class="box" id="skills">
+      <div class="box" id="stat_box">
+        <div id="hp"><small>hp</small><input type="text"/></div>
+        <div id="mana"><small>mana</small><input type="text"/></div>
+        <div id="armor"><small>armor</small><input type="text"/></div>
+        <div id="max_hp"><small>max hp</small><input type="text"/></div>
+        <div id="fatigue"><small>fatigue</small><input type="text"/></div>
+        <div id="hunger"><small>hunger</small> <span style="margin-right:0.9em"></span> <input type="checkbox"><input type="text"/> </div>
+        <div id="speed"><small>speed</small><input type="text"/></div>
+        
+      </div>
+      
+      <h3>Skills</h3>
+      <div id="skill-points" style="grid-column: span 1;">
+        <input></input> <big>/</big> <input></input>
+        <small>Skill points spent</small> <small></small> <small>Total skill points</small>
+      </div>
+      
+      <h4>Abilities</h4>
+      
+      <div class="box" id="abilities">
+        <span></span><small>Score</small><small>Die</small>
+        <span class="ability_header">Body</span>
+        <span>Resilience</span><input></input><input></input>
+        <span>Strength</span><input></input><input></input>
+        <span>Athletics</span><input></input><input></input>
+        <span>Dexterity</span><input></input><input></input>
+        <span class="ability_header">Mind</span>
+        <span>Will</span><input></input><input></input>
+        <span>Perception</span><input></input><input></input>
+        <span>Logic</span><input></input><input></input>
+        <span>Knowledge</span><input></input><input></input>
+        <span class="ability_header">Soul</span>
+        <span>Spirit</span><input></input><input></input>
+        <span>Charisma</span><input></input><input></input>
+        <span>Persuasion</span><input></input><input></input>
+        <span>Deception</span><input></input><input></input>
+        <br/>
+      </div>
+    </div>
+    
+    <div class="box" id="actions" style="grid-column: span 3;">
+      
+      <h3>Attacks</h3>
+      
+      <div class="box">
+        <table>
+          <tr>
+            <th>Attack name</th>
+            <th width="50%">Special</th>
+            <th width="10%">Hit attr</th>
+            <th width="5%">Hit bonus</th>
+            <th width="10%">Dmg attr</th>
+            <th width="5%">Dmg bonus</th>
+            <th width="5%">Range</th>
+            <th width="5%">Break Chance</th>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+        </table>
+      </div>
+      
+      <h3>Spells</h3>
+      
+      <div class="box">
+        <table>
+          <tr>
+            <th>Mana cost</th>
+            <th width="30%">Spell name</th>
+            <th width="60%">Description</th>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+          <tr style="height: 2em">
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+            <td><input type="text"/></td>
+          </tr>
+ 
+        </table>
+      </div>
+    </div>
+    <!--
+    <span style="grid-column: span 4; height: 0.5em;"></span>
+    -->
+    <h3 style="grid-column: span 2;">Feats</h3>
+    <h3 style="grid-column: span 2;">Backstory and Character Details</h3>
+    <div class="box feats" style="grid-column: span 2;grid-template-rows: 55em; grid-row: span 3; position: relative">
+      <div style="border-right: 1px solid grey; margin-right: 0.5em">
+        <small>Cost</small>
+        <textarea cols="2" rows="50" style="display:block"></textarea>
+      </div>
+      <div>
+        <small>Name/Desc.</small>
+        <textarea style="display:block" cols="40" rows="50"></textarea>
+      </div>
+    </div>
+    <div class="box" style="grid-column: span 2; grid-template-rows: 25em; border-left:none">
+      <textarea></textarea>
+    </div>
+    
+    <h3 style="grid-column: span 2;">Equipment and Notes</h3>
+    <div class="box" style="grid-column: span 2;grid-template-rows: 25em; border-left:none">
+      <textarea></textarea>
+    </div>
+  </body>
+</html>
