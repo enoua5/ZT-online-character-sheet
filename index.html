@@ -159,17 +159,45 @@
       }
       @page { size: landscape; }
     </style>
+    <script src="src.js"></script>
     <script>
       function onload()
       {
-      
+        if(localStorage.e5_zt_cs_autosave==undefined)
+          reset_autosave();
+        else
+          autosave=JSON.parse(localStorage.e5_zt_cs_autosave);
+        load_from_auto();
+          
+        if(localStorage.e5_zt_cs_saves==undefined)
+          localStorage.e5_zt_cs_saves="{}";
+        saves=JSON.parse(localStorage.e5_zt_cs_saves);
+          
+        setInterval(do_autosave,100)
+          
       }
     </script>
   </head>
   <body onload="onload()">
     
     <div id="control_box">
+      <button onclick="location.assign('saves.html')">View saves</button>
+    
+      <button id="save_button" onclick="save_normal()" disabled>Save</button>
+      <button onclick="save_as(prompt('Enter a name for the save.'))">Save as</button>
+      
+      <big>|</big>
+      
+      <button onclick="let a=JSON.parse(JSON.stringify(autosave)); delete a.id; g('export').innerText=JSON.stringify(a)">Export</button>
+      <button onclick="autosave=JSON.parse(prompt('Enter the sheet to import. Please be aware that this will override the current autosave. Also, I\'m not bothering to check to see if you\'re entering giberish, so be careful.')); load_from_auto()">Import</button>
+      
+      <big>|</big>
+    
       <button onclick="print()">Print/Save as PDF</button>
+      <button onclick="if(confirm('Are you sure you want to reset the chaaracter sheet? If you have not saved, this page will be lost.')) reset_autosave();">Reset sheet</button>
+      
+      <br/>
+      <p id="export"></p>
     </div>
     
     <h1 style="grid-column: span 4; font-size: 1.80em; margin: 0">Dasu nai `Iva no Zheilao Teigû character sheet</h1>
@@ -188,14 +216,14 @@
         <div id="armor"><small>armor</small><input type="text"/></div>
         <div id="max_hp"><small>max hp</small><input type="text"/></div>
         <div id="fatigue"><small>fatigue</small><input type="text"/></div>
-        <div id="hunger"><small>hunger</small> <span style="margin-right:0.9em"></span> <input type="checkbox"><input type="text"/> </div>
+        <div id="hunger"><small>hunger</small> <span style="margin-right:0.9em"></span> <input type="checkbox"> </div>
         <div id="speed"><small>speed</small><input type="text"/></div>
         
       </div>
       
       <h3>Skills</h3>
       <div id="skill-points" style="grid-column: span 1;">
-        <input></input> <big>/</big> <input></input>
+        <input id="skill-spent"></input> <big>/</big> <input id="skill-total"></input>
         <small>Skill points spent</small> <small></small> <small>Total skill points</small>
       </div>
       
@@ -352,20 +380,20 @@
     <div class="box feats" style="grid-column: span 2;grid-template-rows: 55em; grid-row: span 3; position: relative">
       <div style="border-right: 1px solid grey; margin-right: 0.5em">
         <small>Cost</small>
-        <textarea cols="2" rows="50" style="display:block"></textarea>
+        <textarea id="costs" cols="2" rows="50" style="display:block"></textarea>
       </div>
       <div>
         <small>Name/Desc.</small>
-        <textarea style="display:block" cols="40" rows="50"></textarea>
+        <textarea id="feats" style="display:block" cols="40" rows="50"></textarea>
       </div>
     </div>
     <div class="box" style="grid-column: span 2; grid-template-rows: 25em; border-left:none">
-      <textarea></textarea>
+      <textarea id="deats"></textarea>
     </div>
     
     <h3 style="grid-column: span 2;">Equipment and Notes</h3>
     <div class="box" style="grid-column: span 2;grid-template-rows: 25em; border-left:none">
-      <textarea></textarea>
+      <textarea id="notes"></textarea>
     </div>
   </body>
 </html>
