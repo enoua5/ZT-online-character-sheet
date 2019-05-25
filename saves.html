@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ZT character sheet saves</title>
+    <style>
+      li
+      {
+        margin-top: 0.5em;
+        border-bottom: 1px solid grey;
+      }
+      button
+      {
+        float: right;
+        background: red;
+        margin-top: -0.5em;
+      }
+    </style>
+    <script>
+      function g(what)
+      {
+        return document.getElementById(what);
+      }
+    
+      var saves={};
+      function onload()
+      {
+        if(localStorage.e5_zt_cs_saves==undefined)
+          localStorage.e5_zt_cs_saves="{}";
+        saves=JSON.parse(localStorage.e5_zt_cs_saves);
+        
+        for(let i in saves)
+        {
+          let li=document.createElement("li");
+          
+          let loader=document.createElement("a");
+          loader.innerText=i;
+          loader.href="index.html";
+          loader.onclick=function(){
+            localStorage.e5_zt_cs_autosave=JSON.stringify(saves[i]);
+          }
+          li.appendChild(loader);
+          
+          let del=document.createElement("button");
+          del.innerText="Delete save";
+          del.onclick=function(){
+            if(confirm("Are you sure you wish to delete '"+i+"'?"))
+            {
+              delete saves[i];
+              localStorage.e5_zt_cs_saves=JSON.stringify(saves);
+              alert("Save deleted.");
+              location.reload();
+            }
+          }
+          li.appendChild(del);
+          
+          g("list").appendChild(li);
+        }
+      }
+    </script>
+  </head>
+  <body onload="onload()">
+    <a href="index.html">Return to character sheet</a>
+    <hr/>
+    <ul id="list">
+    
+    </ul>
+  </body>
+</html>

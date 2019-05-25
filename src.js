@@ -12,10 +12,10 @@ function save_as(what,check=true)
         return;
   }
   
-  saves[what]=JSON.parse(JSON.stringify(autosave));
-  delete saves[what].id;
-  
   autosave.id=what;
+  
+  saves[what]=JSON.parse(JSON.stringify(autosave));
+  //delete saves[what].id;
   
   localStorage.e5_zt_cs_saves=JSON.stringify(saves);
   
